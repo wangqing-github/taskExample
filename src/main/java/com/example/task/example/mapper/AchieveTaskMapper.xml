@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.task.example.mapper.AchieveTaskMapper">
+
+    <select id="getAllTaskByEvent" resultType="com.example.task.example.entity.UserTaskInfoEntity">
+        select * from ${tableName} where `event` = #{event} and roleid = #{roleId}
+    </select>
+
+    <insert id="updateUserTaskInfo">
+        INSERT INTO ${tableName} (roleid,taskid,`type`,`group`,`event`,`progress`,`status`,`ctime`) values
+        <foreach collection="list" item="temp" separator=",">
+            (#{temp.roleid},#{temp.taskid},#{temp.type},#{temp.group},#{temp.event},#{temp.progress},#{temp.status},#{temp.ctime})
+        </foreach>
+        ON DUPLICATE KEY UPDATE progress=VALUES(`progress`),status=VALUES(`status`)
+    </insert>
+</mapper>
